@@ -1,0 +1,36 @@
+{
+  "name": "math-modeling-workbench",
+  "version": "0.1.1",
+  "description": "Competition mathematical-modeling workflow with RAG, reproducible code, figures, paper templates, and submission validation.",
+  "author": {
+    "name": "Math Modeling Workbench"
+  },
+  "keywords": [
+    "mathematical-modeling",
+    "competition",
+    "rag",
+    "typst",
+    "latex"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "数学建模工作台",
+    "shortDescription": "从拆题、RAG、求解到论文验收的竞赛建模工作流",
+    "longDescription": "面向数学建模竞赛的本地工作台，包含赛题拆解、跨赛事 RAG、代码与图表、比赛模板、Typst/LaTeX 写作和提交前验收。",
+    "developerName": "Math Modeling Workbench",
+    "category": "Productivity",
+    "capabilities": [
+      "Analysis",
+      "Code",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "完成这道数学建模赛题，并生成可复现论文",
+      "分析这道赛题并用 RAG 选择建模方案",
+      "检查这个数学建模项目是否可以提交"
+    ],
+    "brandColor": "#6287CC",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png"
+  }
+}

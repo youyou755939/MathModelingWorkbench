@@ -1,0 +1,20 @@
+{
+  "name": "math-modeling-workbench",
+  "interface": {
+    "displayName": "Math Modeling Workbench"
+  },
+  "plugins": [
+    {
+      "name": "math-modeling-workbench",
+      "source": {
+        "source": "local",
+        "path": "./plugins/math-modeling-workbench"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

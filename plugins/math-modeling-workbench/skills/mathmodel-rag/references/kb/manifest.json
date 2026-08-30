@@ -1,0 +1,45 @@
+{
+  "name": "数学建模竞赛新题求解 RAG（CUMCM 2000-2025 + 五类跨赛精选）",
+  "version": "2.0.0",
+  "built_on": "2026-08-22",
+  "primary_goal": "为新的数学建模题召回同类型问题、逐问拆解、假设、算法、评价、灵敏度与论文证据链",
+  "source_scope": {
+    "problem_count": 78,
+    "row_count": 261,
+    "year_range": "2000—2025",
+    "scope": "A/B/C题；2016—2025重点",
+    "generated": "2026-08-22",
+    "topical_extensions": [
+      "cross_electric_curated",
+      "cross_five_one_curated",
+      "cross_mathorcup_curated",
+      "cross_postgraduate_curated",
+      "cross_shenzhen_curated",
+      "cross_transfer_patterns",
+      "shenzhen_2025_b"
+    ]
+  },
+  "chunk_count": 477,
+  "chunk_types": {
+    "case_subquestion": 333,
+    "problem_overview": 99,
+    "algorithm_card": 25,
+    "strategy_card": 20
+  },
+  "retrieval": "Chinese character 2/3-gram BM25 with query expansion and metadata boosts",
+  "files": {
+    "corpus": "chunks.jsonl",
+    "sparse_index": "retrieval_index.json.gz",
+    "structured_store": "cumcm_rag.sqlite",
+    "retriever": "../../scripts/retrieve_modeling_kb.py",
+    "validator": "../../../../scripts/validate_bundle.py",
+    "readme": "README.md",
+    "selection_policy": "CROSS_CONTEST_SELECTION.md"
+  },
+  "limitations": [
+    "算法条目是推荐候选组合，不是唯一官方答案。",
+    "2000-2018 年 C 题为历史专科组口径，已保留并标注。",
+    "跨赛扩展中的公开论文必须区分官方材料、获奖名单与未核验获奖身份的参考论文。",
+    "本地索引为可解释稀疏检索；如部署外部向量数据库，可直接导入 chunks.jsonl 再生成语义向量。"
+  ]
+}
