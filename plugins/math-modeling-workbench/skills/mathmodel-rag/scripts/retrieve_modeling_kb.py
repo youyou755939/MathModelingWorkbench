@@ -224,10 +224,40 @@ def render_prompt(query: str, results: list[dict], scores: dict[str, float], exp
     return "\n".join(lines)
 
 
-def retrieve(query: str, kb_dir: Path, top_k: int) -> tuple[list[dict], dict[str, float], list[str]]:
+def filter_chunks(chunks: list[dict], exclude_years: set[str], exclude_problems: set[str]) -> list[dict]:
+    kept = []
+    for ch in chunks:
+        meta = ch.get("metadata", {})
+        year = compact(meta.get("year"))
+        problem = compact(meta.get("problem")).upper()
+        key = f"{year}{problem}"
+        if year in exclude_years or key in exclude_problems:
+            continue
+        kept.append(ch)
+    return kept
+
+
+def retrieve(query: str, kb_dir: Path, top_k: int, exclude_years: set[str] | None = None,
+             exclude_problems: set[str] | None = None) -> tuple[list[dict], dict[str, float], list[str]]:
     chunks, index = load_kb(kb_dir)
+    chunks = filter_chunks(chunks, exclude_years or set(), exclude_problems or set())
     scores, expansion_hits = bm25_scores(query, chunks, index)
     return diversified_rank(chunks, scores, top_k), scores, expansion_hits
+
+
+def query_names_historical_case(query: str, year: str, problem: str) -> bool:
+    """Conservatively flag common ways of naming an exact contest case."""
+    normalized = re.sub(r"[\s\-_/：:]+", "", query).upper()
+    markers = (
+        f"{year}{problem}",
+        f"{year}年{problem}题",
+        f"{year}国赛{problem}",
+        f"{year}年国赛{problem}",
+        f"{year}CUMCM{problem}",
+        f"{year}年CUMCM{problem}",
+        f"{year}题{problem}",
+    )
+    return bool(year and problem and any(marker in normalized for marker in markers))
 
 
 def main() -> None:
@@ -237,13 +267,30 @@ def main() -> None:
     p.add_argument("--top-k", type=int, default=12, help="返回知识块数量")
     p.add_argument("--format", choices=["prompt", "json", "brief"], default="prompt")
     p.add_argument("--out", type=Path, help="把结果写入文件")
+    p.add_argument("--exclude-year", action="append", default=[], metavar="YEAR",
+                   help="前向测试时排除某年份；可重复，例如 --exclude-year 2024")
+    p.add_argument("--exclude-problem", action="append", default=[], metavar="YEAR_PROBLEM",
+                   help="排除某道历史题，例如 --exclude-problem 2024A；可重复")
     args = p.parse_args()
 
-    results, scores, hits = retrieve(args.query, args.kb, max(4, args.top_k))
+    exclude_years = {compact(x) for x in args.exclude_year}
+    exclude_problems = {re.sub(r"[^0-9A-Za-z]", "", x).upper() for x in args.exclude_problem}
+    results, scores, hits = retrieve(args.query, args.kb, max(4, args.top_k), exclude_years, exclude_problems)
+    leakage = []
+    for ch in results:
+        meta = ch.get("metadata", {})
+        year = compact(meta.get("year"))
+        problem = compact(meta.get("problem")).upper()
+        if query_names_historical_case(args.query, year, problem):
+            leakage.append(ch["chunk_id"])
     if args.format == "json":
         payload = {
             "query": args.query,
             "expansion_hits": hits,
+            "evaluation_mode": "holdout" if exclude_years or exclude_problems else "open_book",
+            "excluded_years": sorted(exclude_years),
+            "excluded_problems": sorted(exclude_problems),
+            "possible_exact_case_leakage": leakage,
             "results": [{**ch, "score": scores[ch["chunk_id"]]} for ch in results],
         }
         text = json.dumps(payload, ensure_ascii=False, indent=2)

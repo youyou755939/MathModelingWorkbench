@@ -36,7 +36,11 @@ description: "数学建模编程实现与数据图表生成阶段。根据 ANALY
 5. 绘制丰富的图表。
 6. 在 `reports/RESULTS_REPORT.md` 中写清楚方法、关键数值和校验结果。
 
+最终运行后必须按 `references/result-certificate-schema.md` 生成 `code/outputs/validation_certificate.json`，并运行插件根目录的 `scripts/validate_result_certificate.py`。证书未通过时，不得把目标值写成“最优结果”或把外部结果差异写成“误差”；应先修复约束、口径或复现问题。
+
 优化类问题必须先保证可行解，再优化目标值。预测类问题必须做训练/验证划分或合理误差评估。评价类问题必须说明指标方向、归一化方法和权重来源。
+
+若存在公开论文、排行榜或参考实现，必须从其导出的决策/预测文件独立复算核心指标。比较前核对单位、时间范围、数据版本、目标口径和硬约束；任一不一致就标记为不可比，不输出伪精确的相对误差。
 
 ### Step 3: 结果文件格式
 

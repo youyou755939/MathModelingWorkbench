@@ -58,7 +58,11 @@ def validate_manifest() -> None:
     """Validate plugin metadata and bundled skill declarations."""
     manifest_path = ROOT / ".codex-plugin" / "plugin.json"
     manifest = load_json(manifest_path)
-    require(manifest.get("name") == ROOT.name, "Plugin name must match its folder")
+    name = manifest.get("name")
+    version = manifest.get("version")
+    source_layout = name == ROOT.name
+    installed_cache_layout = name == ROOT.parent.name and version == ROOT.name
+    require(source_layout or installed_cache_layout, "Plugin name must match its source or installed-cache folder")
     require(manifest.get("skills") == "./skills/", "Plugin must expose ./skills/")
     author = manifest.get("author", {})
     require(author.get("name") == "Math Modeling Workbench", "Publisher must be product-only")

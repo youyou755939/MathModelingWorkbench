@@ -18,11 +18,13 @@ Use this skill before proposing a model for a new mathematical-modeling problem.
    ```
 
    Resolve the script relative to this skill directory. If the command is launched elsewhere, pass its absolute path.
+   For a retrospective benchmark, also run a holdout retrieval that excludes the target year or problem, for example `--exclude-year 2024`. Keep the open-book and holdout outputs separate; exact-case hits are leakage for forward-performance claims.
 4. Use at least one relevant historical subquestion or problem overview, one algorithm card, and one strategy card when available. Prefer mathematical-structure similarity over title similarity, and state what transfers and what differs.
 5. Establish an executable, interpretable baseline first. Upgrade only for a demonstrated residual, constraint, accuracy, or robustness gap.
 6. Provide definitions, equations, solver, complexity, evaluation, sensitivity/robustness, failure cases, and reproducibility notes for each subquestion.
 7. Read `source_grade`, `assumptions`, `sensitivity`, and `writing_pattern` from retrieved chunks. Treat B-grade material only as a candidate method, not as evidence for a conclusion.
 8. For a competition-specific or current topic, browse authoritative sources when available. Label sources as official problem/review, verified award paper, ordinary paper, or informal article; never infer "award paper" from the topic alone.
+9. For geometry/contact, sequential sampling, recursive rework/inventory, or multi-period allocation problems, read `references/validation-patterns.md` and select only the relevant section. The deployed reference contains transferable guards and deliberately excludes historical benchmark answers.
 
 ## Mandatory guards
 
@@ -30,6 +32,7 @@ Use this skill before proposing a model for a new mathematical-modeling problem.
 - Do not invent attachment data, numerical results, citations, or prize provenance.
 - Keep fitting/tuning separate from final evaluation and report distributional or worst-case metrics when relevant.
 - Check feasibility and bounds before interpreting an optimizer's objective value.
+- Recompute reported objectives from the exported decision file. If the export violates a hard constraint or cannot reproduce the logged objective, treat its objective as invalid rather than merely inaccurate.
 - Do not call a method an "official answer" merely because it appears in a public paper. Mathematical-modeling contests usually have no unique canonical solution.
 - Propagate uncertainty between dependent subquestions; do not pass a point prediction into an optimizer as if it were exact.
 - For color-display problems, explicitly audit transfer functions, white point/white balance, drive bounds, perceptual color difference, common reachable gamut, and LUT deployment.
