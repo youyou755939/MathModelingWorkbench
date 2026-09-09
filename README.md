@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="plugins/math-modeling-workbench/assets/icon.png" width="116" alt="Math Modeling Workbench logo">
+  <img src="plugins/math-modeling-workbench/assets/icon.png" width="160" alt="Math Modeling Workbench logo">
 </p>
 
 <h1 align="center">Math Modeling Workbench</h1>
