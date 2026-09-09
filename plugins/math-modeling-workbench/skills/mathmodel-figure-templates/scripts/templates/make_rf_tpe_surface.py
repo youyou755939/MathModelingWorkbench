@@ -167,7 +167,7 @@ def make_figure(output_stem: Path) -> None:
 
 
 def main() -> None:
-    make_figure(ROOT / "outputs" / "rf_tpe_surface_replica")
+    make_figure(ROOT / "outputs" / "rf_tpe_surface")
 
 
 if __name__ == "__main__":

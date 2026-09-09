@@ -314,7 +314,7 @@ def make_figure(output_stem: Path) -> None:
 
 
 def main() -> None:
-    make_figure(ROOT / "outputs" / "nature_chord_diagram_replica")
+    make_figure(ROOT / "outputs" / "nature_chord_diagram")
 
 
 if __name__ == "__main__":

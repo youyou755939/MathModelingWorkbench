@@ -389,7 +389,7 @@ def make_figure(output_stem: Path) -> None:
 
 
 def main() -> None:
-    make_figure(ROOT / "outputs" / "urban_park_cooling_combo_replica")
+    make_figure(ROOT / "outputs" / "urban_park_cooling_combo")
 
 
 if __name__ == "__main__":

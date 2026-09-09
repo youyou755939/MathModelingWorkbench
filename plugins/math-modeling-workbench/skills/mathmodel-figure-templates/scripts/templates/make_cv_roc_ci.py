@@ -256,7 +256,7 @@ def make_figure(output_stem: Path) -> None:
 
 
 def main() -> None:
-    make_figure(ROOT / "outputs" / "cv_roc_ci_replica")
+    make_figure(ROOT / "outputs" / "cv_roc_ci")
 
 
 if __name__ == "__main__":

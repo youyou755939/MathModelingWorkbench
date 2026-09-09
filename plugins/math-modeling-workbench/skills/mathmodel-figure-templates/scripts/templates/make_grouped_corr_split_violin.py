@@ -259,7 +259,7 @@ def make_figure(output_stem: Path) -> None:
 
 
 def main() -> None:
-    make_figure(ROOT / "outputs" / "grouped_corr_split_violin_replica")
+    make_figure(ROOT / "outputs" / "grouped_corr_split_violin")
 
 
 if __name__ == "__main__":

@@ -88,7 +88,7 @@ def resolve_template(value: str) -> str:
 
 def write_readme(project: Path, template_id: str, script_path: Path) -> None:
     readme = project / "README.md"
-    output_stem = project / "outputs" / f"{script_path.stem.removeprefix('make_')}_replica"
+    output_stem = project / "outputs" / script_path.stem.removeprefix("make_")
     block = f"""
 ## {template_id}
 
@@ -111,13 +111,13 @@ Outputs:
             return
         readme.write_text(text.rstrip() + "\n\n" + block + "\n", encoding="utf-8")
     else:
-        readme.write_text("# 绘图复刻\n\n" + block + "\n", encoding="utf-8")
+        readme.write_text("# 科研绘图\n\n" + block + "\n", encoding="utf-8")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Render a bundled scientific figure template.")
     parser.add_argument("template", nargs="?", help="Template id, alias, or Chinese title fragment")
-    parser.add_argument("--project", default="绘图复刻", help="Output project directory, default: 绘图复刻")
+    parser.add_argument("--project", default="科研绘图", help="Output project directory, default: 科研绘图")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite an existing copied workspace script")
     parser.add_argument("--list", action="store_true", help="List supported template ids")
     args = parser.parse_args()
@@ -158,7 +158,7 @@ def main() -> None:
 
     stem = dst.stem.removeprefix("make_")
     for suffix in (".png", ".pdf", ".svg"):
-        path = outputs_dir / f"{stem}_replica{suffix}"
+        path = outputs_dir / f"{stem}{suffix}"
         print(path)
 
 

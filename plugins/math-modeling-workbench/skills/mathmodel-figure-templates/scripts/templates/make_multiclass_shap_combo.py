@@ -279,7 +279,7 @@ def main() -> None:
         importances=importances,
         shap_by_class=shap_by_class,
         feature_values=feature_values,
-        output_stem=ROOT / "outputs" / "multiclass_shap_combo_replica",
+        output_stem=ROOT / "outputs" / "multiclass_shap_combo",
     )
 
 
