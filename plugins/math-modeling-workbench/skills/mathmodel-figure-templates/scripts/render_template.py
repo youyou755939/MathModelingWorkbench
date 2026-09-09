@@ -92,7 +92,7 @@ def write_readme(project: Path, template_id: str, script_path: Path) -> None:
     block = f"""
 ## {template_id}
 
-Generated from the bundled MathModel figure-template skill.
+Generated from the bundled scientific figure-template skill.
 
 ```bash
 python3 {script_path.as_posix()}
@@ -115,7 +115,7 @@ Outputs:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Render a bundled MathModel figure template.")
+    parser = argparse.ArgumentParser(description="Render a bundled scientific figure template.")
     parser.add_argument("template", nargs="?", help="Template id, alias, or Chinese title fragment")
     parser.add_argument("--project", default="绘图复刻", help="Output project directory, default: 绘图复刻")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite an existing copied workspace script")

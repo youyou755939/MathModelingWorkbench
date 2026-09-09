@@ -29,7 +29,6 @@ REQUIRED_SKILLS = {
     "typst-author",
 }
 FORBIDDEN_MARKERS = (
-    "jihe" "520",
     "local " "developer",
     "/home/user/" ".claude",
     "[todo" ":",

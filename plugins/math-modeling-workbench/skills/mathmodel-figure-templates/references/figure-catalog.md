@@ -16,4 +16,4 @@ Each id maps to a bundled script under `scripts/templates/`.
 | `urban-park-cooling-combo` | `make_urban_park_cooling_combo.py` | 堆叠图 + 云雨图 + 箱线图组合图 |
 | `nature-chord-diagram` | `make_nature_chord_diagram.py` | Nature 风格和弦图 |
 
-Prompts from the MathModel Improve tab should include `$mathmodel-figure-templates` and the human-readable figure title. The agent should convert that title to one of the ids above and call `scripts/render_template.py`.
+When a request names one of these figures, invoke `$mathmodel-figure-templates`, map the human-readable title to the corresponding id, and call `scripts/render_template.py`.

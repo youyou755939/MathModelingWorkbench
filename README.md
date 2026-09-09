@@ -109,19 +109,21 @@ python plugins/math-modeling-workbench/skills/mathmodel-rag/scripts/retrieve_mod
 
 内置 17 个竞赛模板族，每个模板同时提供 Typst 与 LaTeX 版本，覆盖中文、英文和主流数学建模赛事。数据图由可复现脚本生成，概念图和流程图保留可编辑源文件。
 
+下面三张首页插图均为本仓库从零绘制的原创 SVG，用于说明选模、验算和排版三条质量链路；它们不是科研数据模板或外部项目截图。
+
 <table>
   <tr>
     <td align="center" width="33%">
-      <img src="plugins/math-modeling-workbench/skills/mathmodel-figure-templates/assets/previews/paired_raincloud_replica.png" alt="配对云雨图" width="100%"><br>
-      <sub>配对云雨图</sub>
+      <img src="docs/assets/model-selection.svg" alt="候选模型比较" width="100%"><br>
+      <sub>候选模型比较</sub>
     </td>
     <td align="center" width="33%">
-      <img src="plugins/math-modeling-workbench/skills/mathmodel-figure-templates/assets/previews/taylor_diagram_replica.png" alt="泰勒图" width="100%"><br>
-      <sub>多模型评价泰勒图</sub>
+      <img src="docs/assets/result-validation.svg" alt="结果证据链" width="100%"><br>
+      <sub>结果证据链</sub>
     </td>
     <td align="center" width="33%">
-      <img src="plugins/math-modeling-workbench/skills/mathmodel-figure-templates/assets/previews/nature_chord_diagram_replica.png" alt="Nature 风格和弦图" width="100%"><br>
-      <sub>Nature 风格和弦图</sub>
+      <img src="docs/assets/paper-design.svg" alt="论文视觉系统" width="100%"><br>
+      <sub>论文视觉系统</sub>
     </td>
   </tr>
 </table>
@@ -233,7 +235,7 @@ PASS bundle
 
 - 历史题和算法卡用于提出候选结构，不是官方答案。
 - 没有通过约束、复现和一致性检查的结果，不进入论文美化阶段。
-- 插件不包含原 MathModelAgent 的 Vue / FastAPI Web 应用，只保留适合 Codex 调用的 Skills、知识库、模板和验收能力。
+- 插件专注于适合 Codex 调用的 Skills、知识库、模板和验收能力，不捆绑独立 Web 应用。
 - 比赛年度规则可能变化，提交前仍应核对当年官方通知。
 
 ## License

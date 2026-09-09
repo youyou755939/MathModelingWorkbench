@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">Model selection pipeline</title>
+  <desc id="desc">An original diagram showing a problem being decomposed into candidate models and a verified final choice.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#111b31"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#55d6be"/>
+      <stop offset="1" stop-color="#6287cc"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity=".45"/>
+    </filter>
+  </defs>
+
+  <rect width="720" height="420" rx="28" fill="url(#bg)"/>
+  <circle cx="42" cy="36" r="5" fill="#ef6a6a"/>
+  <circle cx="60" cy="36" r="5" fill="#eabf55"/>
+  <circle cx="78" cy="36" r="5" fill="#55d68a"/>
+  <text x="360" y="42" fill="#dbe7ff" font-size="16" text-anchor="middle" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="700" letter-spacing="2">MODEL SELECTION</text>
+
+  <g filter="url(#shadow)">
+    <rect x="38" y="88" width="168" height="242" rx="20" fill="#131f36" stroke="#293a59"/>
+    <text x="58" y="120" fill="#8ca6d7" font-size="12" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="700" letter-spacing="1.5">PROBLEM SIGNAL</text>
+    <rect x="58" y="142" width="128" height="42" rx="12" fill="#1b2b47"/>
+    <circle cx="78" cy="163" r="7" fill="#55d6be"/>
+    <path d="M92 157h72M92 166h50" stroke="#9cb2d9" stroke-width="5" stroke-linecap="round" opacity=".75"/>
+    <rect x="58" y="197" width="128" height="42" rx="12" fill="#1b2b47"/>
+    <rect x="71" y="210" width="15" height="15" rx="4" fill="#6287cc"/>
+    <path d="M96 212h67M96 221h43" stroke="#9cb2d9" stroke-width="5" stroke-linecap="round" opacity=".75"/>
+    <rect x="58" y="252" width="128" height="54" rx="12" fill="#162a36" stroke="#2f6c72"/>
+    <path d="M72 288l16-17 14 9 25-25 23 18 22-23" fill="none" stroke="url(#accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <path d="M220 209h48" stroke="#3d5275" stroke-width="3" stroke-linecap="round"/>
+  <path d="m259 200 10 9-10 9" fill="none" stroke="#55d6be" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g filter="url(#shadow)">
+    <rect x="282" y="76" width="176" height="268" rx="20" fill="#131f36" stroke="#293a59"/>
+    <text x="302" y="108" fill="#8ca6d7" font-size="12" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="700" letter-spacing="1.5">CANDIDATES</text>
+    <rect x="302" y="128" width="136" height="52" rx="12" fill="#1b2b47"/>
+    <text x="320" y="150" fill="#edf4ff" font-size="13" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="700">Baseline</text>
+    <rect x="320" y="160" width="98" height="5" rx="2.5" fill="#334866"/>
+    <rect x="320" y="160" width="61" height="5" rx="2.5" fill="#8ca6d7"/>
+    <rect x="302" y="190" width="136" height="52" rx="12" fill="#1b2b47"/>
+    <text x="320" y="212" fill="#edf4ff" font-size="13" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="700">Candidate A</text>
+    <rect x="320" y="222" width="98" height="5" rx="2.5" fill="#334866"/>
+    <rect x="320" y="222" width="81" height="5" rx="2.5" fill="#6287cc"/>
+    <rect x="296" y="251" width="148" height="66" rx="14" fill="#122d31" stroke="#55d6be" stroke-width="2"/>
+    <text x="320" y="276" fill="#edf4ff" font-size="13" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="700">Candidate B</text>
+    <rect x="320" y="289" width="98" height="6" rx="3" fill="#27434a"/>
+    <rect x="320" y="289" width="91" height="6" rx="3" fill="url(#accent)"/>
+    <circle cx="418" cy="270" r="11" fill="#55d6be"/>
+    <path d="m412 270 4 4 8-9" fill="none" stroke="#07141a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <path d="M472 209h48" stroke="#3d5275" stroke-width="3" stroke-linecap="round"/>
+  <path d="m511 200 10 9-10 9" fill="none" stroke="#55d6be" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g filter="url(#shadow)">
+    <rect x="534" y="88" width="148" height="242" rx="20" fill="#131f36" stroke="#293a59"/>
+    <text x="554" y="120" fill="#8ca6d7" font-size="12" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="700" letter-spacing="1.5">VERIFIED</text>
+    <circle cx="608" cy="185" r="45" fill="#112d32" stroke="#55d6be" stroke-width="3"/>
+    <circle cx="608" cy="185" r="32" fill="none" stroke="#2e5e65" stroke-width="8"/>
+    <path d="m588 185 13 13 28-31" fill="none" stroke="#55d6be" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="#8ca6d7" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11">
+      <text x="558" y="259">FIT</text>
+      <text x="558" y="282">ROBUST</text>
+      <text x="558" y="305">FEASIBLE</text>
+    </g>
+    <g>
+      <rect x="612" y="251" width="49" height="8" rx="4" fill="#263b59"/><rect x="612" y="251" width="43" height="8" rx="4" fill="#6287cc"/>
+      <rect x="612" y="274" width="49" height="8" rx="4" fill="#263b59"/><rect x="612" y="274" width="46" height="8" rx="4" fill="#55d6be"/>
+      <rect x="612" y="297" width="49" height="8" rx="4" fill="#263b59"/><rect x="612" y="297" width="49" height="8" rx="4" fill="#55d68a"/>
+    </g>
+  </g>
+
+  <text x="360" y="382" fill="#6f87ad" font-size="12" text-anchor="middle" font-family="Inter,Segoe UI,Arial,sans-serif" letter-spacing="1.2">BASELINE  →  COMPARE  →  VERIFY</text>
+</svg>
