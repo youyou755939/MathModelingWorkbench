@@ -101,6 +101,19 @@ def validate_skills() -> None:
         (SKILLS / "mathmodel-reference" / "math_modeling_norms.md").is_file(),
         "Shared modeling reference is missing",
     )
+    require((ROOT / "scripts" / "inspect_project_inputs.py").is_file(), "Input inspector is missing")
+    require((ROOT / "scripts" / "collect_diagnostics.py").is_file(), "Diagnostic collector is missing")
+    require((ROOT / "scripts" / "manage_workflow_state.py").is_file(), "Workflow state manager is missing")
+    require((ROOT / "scripts" / "model_freeze.py").is_file(), "Model-freeze manager is missing")
+    require((ROOT / "tests" / "test_governance.py").is_file(), "Governance behavior test is missing")
+    require(
+        (SKILLS / "1start-mathmodel" / "references" / "project-state.md").is_file(),
+        "Project-state reference is missing",
+    )
+    require(
+        (SKILLS / "mathmodel-reference" / "roles-and-freeze.md").is_file(),
+        "Role and freeze reference is missing",
+    )
 
 
 def validate_templates() -> None:

@@ -5,17 +5,19 @@ description: "数学建模竞赛最终验证和验收阶段，支持 Typst 和 L
 
 # 验证和验收（Typst / LaTeX）
 
-本 skill 是完整工作流的最后一关。它不重新建模、不生成新结果、不代替写作阶段重写论文；它负责发现硬错误、修复可直接修复的问题，并输出 `reports/VERIFY_REPORT.md`。
+本 skill 是完整工作流的最后一关。它不重新建模、不生成新结果，也不代替任何责任阶段改文件；它负责独立发现、定位和分级错误，并输出 `reports/VERIFY_REPORT.md`。
 
 ## 数学建模规范参考
 
 如需领域判断，读取 `../mathmodel-reference/math_modeling_norms.md` 中的"论文验收与一致性"小节。该文件只是规范知识库，不是固定执行流程；具体目录、入口文件、结果文件和图表目录由当前项目结构决定。
 
+开始前读取 `../mathmodel-reference/roles-and-freeze.md`。验收阶段对前序全部产物只读；发现错误时写明责任阶段和复现证据，不能直接“顺手修掉”后宣称通过。
+
 ## 阶段边界
 
 - 本阶段负责：结构验收、文本质量门禁、图表引用检查、结果一致性检查、Typst/LaTeX 编译检查、PDF 视觉检查、提交清单。
 - 本阶段不负责：重新设计模型、重新跑大规模实验、重新组织整篇论文。
-- 发现硬错误时，优先做小范围修复；如果需要回到前序阶段，写入 `reports/VERIFY_REPORT.md` 并标记为未通过。
+- 发现错误时写入 `reports/VERIFY_REPORT.md` 并标记责任阶段。修复必须由对应 Skill 完成，随后重新运行验收。
 
 ## 输入
 
@@ -25,14 +27,28 @@ description: "数学建模竞赛最终验证和验收阶段，支持 Typst 和 L
 2. 正文章节目录或若干正文文件（`.typ` 或 `.tex`）。
 3. 参考文献文件（`references.typ` 或 `references.tex`）。
 4. 前序阶段的分析、RAG 检索上下文、建模、结果、图示报告。
-5. 图表目录
-6. 可复现代码目录。
-7. 编译后的 PDF，或可由入口文件编译得到的输出 PDF。
+5. 输入附件清单、任务契约、模型冻结、角色回执与工作流状态文件。
+6. 结果证书。
+7. 图表目录
+8. 可复现代码目录。
+9. 编译后的 PDF，或可由入口文件编译得到的输出 PDF。
 
 不要假设论文目录一定叫 `paper/`，也不要假设结果文件一定在项目根。若项目使用不同命名，按实际结构传参并在 `reports/VERIFY_REPORT.md` 中说明。
 
 ## 工作流程
 
+### Step 0: 冻结与责任链门禁
+
+```bash
+python <插件根目录>/scripts/model_freeze.py <项目根目录> check \
+  --receipt-role 3coding-visual --receipt-role 5writing
+python <插件根目录>/scripts/validate_result_certificate.py \
+  code/outputs/validation_certificate.json --freeze reports/MODEL_FREEZE.json
+python <插件根目录>/scripts/manage_workflow_state.py <项目根目录> audit --require-through writing
+python <插件根目录>/scripts/model_freeze.py <项目根目录> accept --role 6verity
+```
+
+任一命令失败即为硬错误。先定位是冻结内容被改、上游源文件漂移、角色未接受、结果证书不匹配还是阶段产物哈希失效，再退回对应责任阶段。
 
 ### Step 1: 运行文本质量门禁
 
@@ -118,7 +134,7 @@ bash "$SCRIPT_PATH" \
 - 目标函数值、误差指标、排名、权重、阈值、灵敏度结果不得与结果记录冲突。
 - 如果存在汇总结果 JSON，抽取关键指标并确认论文正文中有对应结果。
 - 公式中的符号应在符号说明或正文首次出现处解释。
-- 若存在 `code/outputs/validation_certificate.json`，运行插件根目录的 `scripts/validate_result_certificate.py`；任何硬约束失败、非有限指标、复现命令失败或把约束未通过的外部结果标为可比，都属于硬错误。
+- 运行插件根目录的 `scripts/validate_result_certificate.py` 并传入 `--freeze reports/MODEL_FREEZE.json`；任何冻结哈希不匹配、硬约束失败、非有限指标、复现命令失败或把约束未通过的外部结果标为可比，都属于硬错误。
 - 外部“获奖论文”“公认结果”或公开代码必须有来源等级和独立复算记录。比赛未发布唯一标准答案时，不得将公开结果称为官方答案。
 
 发现数值冲突时，不要自行发明新结果；应回到结果记录或代码输出修正论文。
@@ -225,6 +241,15 @@ PASS / FAIL
 
 只有当硬错误都修复、文本门禁通过、核心图表都引用、数值一致、编译通过或明确说明不可编译原因、视觉检查通过或明确说明无法执行原因时，才写 `PASS`。
 
+最终 PASS 后以本次验收报告更新状态：
+
+```bash
+python <插件根目录>/scripts/manage_workflow_state.py <项目根目录> set verification complete \
+  --actor 6verity --artifact reports/VERIFY_REPORT.md
+```
+
+若状态声称上游完成但对应产物缺失，验收必须 FAIL。
+
 ## 硬错误标准
 
 以下问题必须判定 `FAIL`：
@@ -238,6 +263,8 @@ PASS / FAIL
 - 正文泄露内部工作流文件名。
 - 引用的图片不存在。
 - 关键数值与结果记录冲突。
+- 模型冻结检查失败、冻结源文件漂移、代码或写作角色回执缺失/过期。
+- 结果证书中的冻结版本或 SHA-256 与当前冻结文件不一致。
 - 结果证书 FAIL，或导出决策文件无法复算论文中的核心目标值。
 - 编译器可用但论文编译失败。
 - 编译后的 PDF 为空、缺页、页数异常或页面尺寸异常且无法解释。

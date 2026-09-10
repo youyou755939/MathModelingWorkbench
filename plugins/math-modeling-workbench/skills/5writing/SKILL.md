@@ -13,6 +13,20 @@ description: "数学建模竞赛论文撰写阶段，支持 Typst 和 LaTeX 双�
 
 如需领域判断，读取 `../mathmodel-reference/math_modeling_norms.md` 中的“论文写作”“图表与可视化”和“非数据图工具选择”小节。该文件只作为规范知识库，论文结构仍按比赛模板和当前赛题内容决定。
 
+开始前读取 `../mathmodel-reference/roles-and-freeze.md`。论文阶段只拥有 `paper/`；任务契约、冻结模型、代码、结果、证书和图表数据均为只读。
+
+执行以下门禁后才能写正文：
+
+```bash
+python <插件根目录>/scripts/model_freeze.py <项目根目录> check \
+  --receipt-role 3coding-visual
+python <插件根目录>/scripts/model_freeze.py <项目根目录> accept --role 5writing
+python <插件根目录>/scripts/validate_result_certificate.py \
+  code/outputs/validation_certificate.json --freeze reports/MODEL_FREEZE.json
+```
+
+任何检查失败，或论文需要一个上游没有的数字、公式、假设或结论时，追加 `reports/CHANGE_REQUESTS.md` 并停止相关段落；不得为了行文完整修改上游文件或自行补值。
+
 ## 模板族
 
 本技能内捆绑的模板位于：
@@ -40,6 +54,18 @@ huashubei, huaweibei, huazhongbei, mathorcup, mcm, shuweibei, stats, wuyibei
 ```text
 apmcm, default, mcm
 ```
+
+### 用户自有模板
+
+用户可以提供其有权使用的 Typst 或 LaTeX 模板目录。使用前必须：
+
+1. 确认入口文件为 `main.typ` 或 `main.tex`，并在项目内保留一份原始副本。
+2. 检查入口引用的章节、字体和图片是否存在，引用路径不得逃逸模板目录。
+3. 先用最小占位正文编译，通过后再填充正式内容。
+4. 在 `plan.md` 记录模板来源为“用户提供”或“本插件原创捆绑模板”，不得暗示来自其他项目或赛事官方。
+5. 不从网页、安装包或第三方仓库抓取模板进行改写，除非用户明确提供兼容许可并要求使用。
+
+用户自有模板只替换排版外壳，不改变结果证据链、章节完整性和最终验收标准。
 
 论文中的所有数值图表结论必须来自 `reports/RESULTS_REPORT.md` 或 `figures/*`。不得编造、估算或使用不同的四舍五入方式。
 
@@ -101,6 +127,7 @@ ls "$SKILL_DIR/templates/zh/<竞赛>/main.typ" 2>/dev/null && echo "OK" || echo 
 
 - **文件存在（OK）**：直接将 `templates/zh/<竞赛>/` 整目录复制到 `paper/`。这些模板是自包含入口文件，不依赖额外共享样式文件。
 - **文件不存在（MISSING）**：说明 skill 未完整安装或在沙箱中，此时依照本 SKILL.md 步骤 3 列出的对应节文件结构，从零重建最小可编译 Typst 框架，并在 `paper/` 内注明"重建自 default 结构"。
+- **用户提供自有模板**：优先复制到项目内的隔离目录完成最小编译检查，再作为 `paper/` 的起点；不要直接修改唯一原件。
 
 存在匹配模板时，绝不从零开始写论文。
 
@@ -112,6 +139,7 @@ ls "$SKILL_DIR/templates/zh/<竞赛>-latex/main.tex" 2>/dev/null && echo "OK" ||
 
 - **文件存在（OK）**：将 `templates/zh/<竞赛>-latex/` 整目录复制到 `paper/`。
 - **文件不存在（MISSING）**：说明 skill 未完整安装或在沙箱中，此时依照本 SKILL.md 步骤 3 列出的对应节文件结构，从零重建最小可编译 LaTeX 框架，并在 `paper/` 内注明"重建自 default-latex 结构"。
+- **用户提供自有模板**：采用与 Typst 相同的隔离、路径和最小编译检查，并确认所需 LaTeX 宏包可用。
 
 
 ### 步骤 3：构建图表规划
@@ -336,6 +364,13 @@ A_code.typ
 ### 步骤 6：最后撰写摘要或总结
 
 在所有章节完成后撰写中文摘要或英文 Summary Sheet。必须包含每个子问题的方法和精确的数值结果。
+
+完成后以选定的论文入口更新工作流状态，例如：
+
+```bash
+python <插件根目录>/scripts/manage_workflow_state.py <项目根目录> set writing complete \
+  --actor 5writing --artifact paper/main.tex
+```
 
 ## LaTeX 写作要点
 

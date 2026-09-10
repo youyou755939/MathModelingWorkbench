@@ -5,6 +5,8 @@ Write `code/outputs/validation_certificate.json` after the final run:
 ```json
 {
   "problem_id": "contest-year-problem",
+  "model_freeze_revision": 1,
+  "model_freeze_sha256": "64-character SHA-256 from MODEL_FREEZE.json",
   "run_command": "python code/main.py",
   "exit_code": 0,
   "metrics": [
@@ -28,6 +30,8 @@ Write `code/outputs/validation_certificate.json` after the final run:
   ]
 }
 ```
+
+The two freeze fields are mandatory. Copy them from the successful output of `model_freeze.py <project> check`; do not recompute them from an unsealed draft. Validate the certificate with `--freeze reports/MODEL_FREEZE.json`. If the freeze or its source artifacts change, the certificate is stale and the final run must be repeated under the new revision.
 
 Use source level A for official facts or direct attachment-derived invariants, B for independently reproduced/cross-checked results, and C for a single unverified public claim. Set `commensurable` to false when definitions, units, horizon, data, constraints, or accounting differ. Never manufacture a relative error for an incommensurable comparison.
 

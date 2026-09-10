@@ -183,7 +183,7 @@ def diversified_rank(chunks: list[dict], scores: dict[str, float], top_k: int) -
 
 def render_prompt(query: str, results: list[dict], scores: dict[str, float], expansion_hits: list[str]) -> str:
     lines = [
-        "# 数学建模竞赛新题求解 RAG 上下文包",
+        "# 数学建模竞赛稀疏检索 RAG 上下文包",
         "",
         f"用户新题/查询：{query}",
         f"检索扩展信号：{'、'.join(expansion_hits) if expansion_hits else '无；按原查询检索'}",

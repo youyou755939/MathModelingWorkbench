@@ -1,6 +1,6 @@
 ---
 name: 2analysis-modeling
-description: "数学建模赛题分析与建模设计合并阶段。用于读取题面和附件，完成子问题拆解、数据理解、假设预检、变量定义、模型公式、目标函数、约束条件、求解策略和可交给代码实现的建模报告。"
+description: "数学建模赛题分析、建模设计与参数冻结阶段。用于统一题意和数据口径，确定变量、公式、目标、约束、求解与验证规则，并封印可交给代码实现的模型契约。"
 ---
 
 # 赛题分析与建模设计
@@ -8,6 +8,8 @@ description: "数学建模赛题分析与建模设计合并阶段。用于读取
 ## 数学建模规范参考
 
 如需领域判断，读取 `../mathmodel-reference/math_modeling_norms.md` 中的“赛题理解与子问题识别”“假设与模型建立”和“题型防错速查”小节。该文件只作为规范知识库，不替代本阶段的分析报告结构。
+
+开始前读取 `../mathmodel-reference/roles-and-freeze.md`。本阶段是题意、模型和参数的唯一责任方；封印后，代码、制图、写作与验收阶段只能读取这些产物。
 
 完成子问题拆解后、确定模型前，调用插件内的 `mathmodel-rag`。它提供历史类比和检查清单，不提供本题标准答案。若 Skill 不可用，记录原因并继续建立可解释基线，不能因此中止整个流程。
 
@@ -21,6 +23,8 @@ description: "数学建模赛题分析与建模设计合并阶段。用于读取
 - `reports/RAG_CONTEXT.md`：
   - 每个子问题的结构化查询、采用的历史小问或整题、算法卡、策略卡、检索块 ID 和来源等级。
   - 明确“可迁移结构”“本题差异”“采用/拒绝理由”；不得把检索内容称为官方答案。
+- `reports/TASK_CONTRACT.md`：顶层问题、输入输出、数据范围、单位、样本/分组口径、硬约束、已确认解释和未决风险。
+- `reports/MODEL_FREEZE.json`：固定模型族、参数或训练内选择规则、求解器、停止条件、验证方案与失败策略，并通过脚本封印。
 
 不要在本阶段写论文正文，不要生成最终 `paper/`，不要把图表排版任务提前到这里。
 
@@ -150,6 +154,27 @@ description: "数学建模赛题分析与建模设计合并阶段。用于读取
 | 问题二 | ... | ... | ... | ... |
 ```
 
+### Step 7: 冻结模型与参数
+
+先完成并交叉核对 `TASK_CONTRACT.md`、`ANALYSIS_MODELING_REPORT.md` 与输入清单，再读取 `../mathmodel-reference/roles-and-freeze.md`，使用插件根目录脚本创建冻结草稿：
+
+```bash
+python <插件根目录>/scripts/model_freeze.py <项目根目录> init \
+  --problem-id <竞赛-年份-题号> --title "<赛题标题>" \
+  --question Q1 --question Q2
+```
+
+按实际问题数填写草稿。每问必须明确固定参数，或明确只能由训练数据决定参数的候选集与选择规则；不得把“由代码自行选择”“取常用值”写成冻结规则。完成后执行：
+
+```bash
+python <插件根目录>/scripts/model_freeze.py <项目根目录> seal
+python <插件根目录>/scripts/model_freeze.py <项目根目录> check
+python <插件根目录>/scripts/manage_workflow_state.py <项目根目录> set analysis complete \
+  --actor 2analysis-modeling --artifact reports/MODEL_FREEZE.json
+```
+
+若存在未决题意、未定硬约束、未指定参数/搜索空间、无停止条件或无验收阈值，保持 `draft` 和 `analysis=in_progress`，不得进入正式编码。
+
 
 ## 质量要求
 
@@ -159,3 +184,4 @@ description: "数学建模赛题分析与建模设计合并阶段。用于读取
 - 模型既要有数学表达，也要能被代码实现。
 - 若数据不足或题面不清，要明确记录风险和替代方案。
 - 每个最终模型都能对应到本题条件和验证方案；引用 RAG 时保留检索块 ID，并写清迁移差异。
+- `MODEL_FREEZE.json` 检查通过，且与任务契约、输入清单和建模报告哈希一致。

@@ -1,5 +1,5 @@
 interface:
-  display_name: "数学建模 RAG"
+  display_name: "数学建模竞赛稀疏检索 RAG"
   short_description: "跨五类赛事检索拆题、假设、模型、评价、灵敏度与写作范式"
   brand_color: "#185A7D"
   default_prompt: "Use $mathmodel-rag to decompose this competition problem, retrieve relevant methods, and build a verifiable solution."

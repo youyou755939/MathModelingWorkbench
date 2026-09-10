@@ -1,9 +1,9 @@
 ---
 name: mathmodel-rag
-description: Use the bundled Chinese mathematical-modeling RAG when solving, reviewing, or writing competition models. It covers CUMCM 2000-2025 A/B/C plus 21 curated Shenzhen Cup, MathorCup, Electrical Engineering Cup, May Day, and China Postgraduate/Huawei Cup problems, retrieving transferable decomposition, assumptions, algorithms, metrics, sensitivity, writing patterns, and source-audit rules.
+description: Use the bundled Chinese mathematical-modeling sparse-retrieval RAG when solving, reviewing, or writing competition models. It covers CUMCM 2000-2025 A/B/C plus 21 curated Shenzhen Cup, MathorCup, Electrical Engineering Cup, May Day, and China Postgraduate/Huawei Cup problems, retrieving transferable decomposition, assumptions, algorithms, metrics, sensitivity, writing patterns, and source-audit rules.
 ---
 
-# Mathematical Modeling RAG
+# 数学建模竞赛稀疏检索 RAG
 
 Use this skill before proposing a model for a new mathematical-modeling problem. Retrieval supplies analogies and checklists, not an official answer.
 

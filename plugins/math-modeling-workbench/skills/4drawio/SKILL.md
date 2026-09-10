@@ -11,11 +11,14 @@ description: "数学建模非数据型图示绘制阶段。根据 ANALYSIS_MODEL
 
 如需领域判断，读取 `../mathmodel-reference/math_modeling_norms.md` 中的“图表与可视化”和“非数据图工具选择”小节。该文件只作为规范知识库，不要求为了凑数量生成额外图示。
 
+开始前读取 `../mathmodel-reference/roles-and-freeze.md`，检查冻结文件并执行 `model_freeze.py <项目根目录> accept --role 4drawio`。本阶段只把已冻结的方法结构转成非数据图，不改变任何模型或结果。
+
 ## 阶段边界
 
 - 本阶段负责：DrawIO 源文件、非数据图 PDF、图示生成记录。
 - 本阶段不负责：折线图、柱状图、散点图、热力图、箱线图、雷达图等数据图。这些由 `3coding-visual` 生成。
 - 本阶段不重跑模型、不修改 `code/`，不改写 `reports/RESULTS_REPORT.md` 的数值结论。
+- 发现流程图无法忠实表达冻结模型时，写入 `reports/CHANGE_REQUESTS.md` 并退回责任阶段，不在图中自行补充步骤或参数。
 
 ## 必须产出
 
@@ -163,3 +166,9 @@ fi
 - 每张图必须能对应到`reports/ANALYSIS_MODELING_REPORT.md` 中的真实方法。
 - 数据型图表不得在本阶段重复生成。
 - 论文阶段引用的非数据图都应有 `.drawio` 源文件和 PDF，或者在 `reports/DRAWIO_REPORT.md` 说明导出失败。
+- 完成后以 `DRAWIO_REPORT.md` 更新工作流状态：
+
+```bash
+python <插件根目录>/scripts/manage_workflow_state.py <项目根目录> set diagram complete \
+  --actor 4drawio --artifact reports/DRAWIO_REPORT.md
+```

@@ -9,6 +9,8 @@ import math
 import sys
 from pathlib import Path
 
+from model_freeze import FreezeError, check_freeze
+
 
 def finite_number(value: object) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
@@ -17,6 +19,7 @@ def finite_number(value: object) -> bool:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate mathematical-model result evidence")
     parser.add_argument("certificate", type=Path)
+    parser.add_argument("--freeze", type=Path, required=True, help="sealed reports/MODEL_FREEZE.json")
     parser.add_argument("--out", type=Path, help="write normalized validation summary")
     args = parser.parse_args()
 
@@ -24,9 +27,37 @@ def main() -> int:
     failures: list[str] = []
     warnings: list[str] = []
 
-    for key in ("problem_id", "run_command", "exit_code", "metrics", "hard_constraints", "comparisons"):
+    for key in (
+        "problem_id",
+        "model_freeze_revision",
+        "model_freeze_sha256",
+        "run_command",
+        "exit_code",
+        "metrics",
+        "hard_constraints",
+        "comparisons",
+    ):
         if key not in data:
             failures.append(f"missing required field: {key}")
+
+    freeze_path = args.freeze.resolve()
+    project_root = freeze_path.parent.parent
+    if freeze_path != project_root / "reports" / "MODEL_FREEZE.json":
+        failures.append("--freeze must point to <project>/reports/MODEL_FREEZE.json")
+        checked_freeze = None
+    else:
+        try:
+            checked_freeze = check_freeze(project_root)
+        except FreezeError as exc:
+            failures.append(f"model freeze failed: {exc}")
+            checked_freeze = None
+    if checked_freeze is not None:
+        if data.get("problem_id") != checked_freeze["problem_id"]:
+            failures.append("certificate problem_id does not match the sealed freeze")
+        if data.get("model_freeze_revision") != checked_freeze["revision"]:
+            failures.append("certificate model_freeze_revision does not match the sealed freeze")
+        if data.get("model_freeze_sha256") != checked_freeze["sha256"]:
+            failures.append("certificate model_freeze_sha256 does not match the sealed freeze")
     if data.get("exit_code") != 0:
         failures.append(f"reproduction command exit_code={data.get('exit_code')}")
 
@@ -77,6 +108,8 @@ def main() -> int:
         failures.append("no hard constraints recorded")
     result = {
         "problem_id": data.get("problem_id"),
+        "model_freeze_revision": data.get("model_freeze_revision"),
+        "model_freeze_sha256": data.get("model_freeze_sha256"),
         "status": "PASS" if not failures else "FAIL",
         "failures": failures,
         "warnings": warnings,

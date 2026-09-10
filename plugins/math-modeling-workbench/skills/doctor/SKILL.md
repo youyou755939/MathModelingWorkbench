@@ -7,6 +7,8 @@ description: "环境检查与安装向导。检查数学建模工作流所需的
 
 本 skill 检查完整数学建模工作流所需的所有工具是否已就绪，并帮助用户安装缺失项。**本 skill 只在用户显式触发时运行，不自动执行。**
 
+除环境检查外，本 skill 可以调用插件根目录的 `scripts/collect_diagnostics.py` 生成本地诊断报告。报告不读取环境变量值、API Key 或附件正文，也不会自动上传。
+
 ## 检查项清单
 
 ### 核心工具
@@ -33,6 +35,16 @@ description: "环境检查与安装向导。检查数学建模工作流所需的
 | `openpyxl` | 读写 Excel 数据附件 |
 
 ## 工作流程
+
+### 可选：生成本地诊断报告
+
+用户要求排查、反馈或收集诊断信息时运行：
+
+```bash
+python <插件根目录>/scripts/collect_diagnostics.py --project-root <项目根目录>
+```
+
+输出为 `reports/DIAGNOSTICS.md`。分享前必须让用户检查报告；不得自动上传，也不得把 `.env`、密钥文件或完整比赛数据打包进去。
 
 ### Step 1：检测当前平台
 

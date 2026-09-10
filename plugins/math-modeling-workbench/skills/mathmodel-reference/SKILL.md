@@ -7,4 +7,4 @@ description: "共享规范知识库。包含数学建模竞赛的写作规范、
 
 本文件夹是共享规范知识库，不是可独立执行的 skill。
 
-其他 skills 在需要领域判断时会读取 `math_modeling_norms.md` 中的相关小节。请勿手动触发此 skill。
+其他 skills 在需要领域判断时会读取 `math_modeling_norms.md` 中的相关小节；完整流程还会读取 `roles-and-freeze.md` 执行阶段责任和模型参数冻结。请勿手动触发此 skill。
